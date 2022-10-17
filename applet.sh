@@ -122,7 +122,49 @@ awk '/Left:/{gsub(/[[:punct:]]/,"",$5);left=$5}
 ) | gdbar -max 100 -min 0 -l 'Vol ' -bg '#777777' -fg '#00ff00' -ss '2' | dzen2 -p -u -l '1' -w '150' -y '100' -x '100' -ta c -sa c -e 'onstartup=uncollapse;button3=exit'
 }
 
+wifi-menu()
+{
 
+notify-send --icon=/usr/share/themes/themes/icons/rose-pine-moon-icons/64x64/apps/distributor-logo-archlinux.svg \
+  -r 445 --app-name=system-ui \
+  "Getting list of available Wi-Fi networks..."
+# Get a list of available wifi connections and morph it into a nice-looking list
+wifi_list=$(nmcli --fields "SECURITY,SSID" device wifi list | sed 1d | sed 's/  */ /g' | sed -E "s/WPA*.?\S/ /g" | sed "s/^--/ /g" | sed "s/  //g" | sed "/--/d")
+
+connected=$(nmcli -fields WIFI g)
+if [[ "$connected" =~ "enabled" ]]; then
+	toggle="睊  Disable Wi-Fi"
+elif [[ "$connected" =~ "disabled" ]]; then
+	toggle="直  Enable Wi-Fi"
+fi
+
+# Use rofi to select wifi network
+chosen_network=$(echo -e "$toggle\n$wifi_list" | uniq -u | rofi -dmenu -i -selected-row 1 -p "Wi-Fi SSID: " )
+# Get name of connection
+chosen_id=$(echo "${chosen_network:3}" | xargs)
+
+if [ "$chosen_network" = "" ]; then
+	exit
+elif [ "$chosen_network" = "直  Enable Wi-Fi" ]; then
+	nmcli radio wifi on
+elif [ "$chosen_network" = "睊  Disable Wi-Fi" ]; then
+	nmcli radio wifi off
+else
+	# Message to show when connection is activated successfully
+	success_message="You are now connected to the Wi-Fi network \"$chosen_id\"."
+	# Get saved connections
+	saved_connections=$(nmcli -g NAME connection)
+	if [[ $(echo "$saved_connections" | grep -w "$chosen_id") = "$chosen_id" ]]; then
+		nmcli connection up id "$chosen_id" | grep "successfully" && notify-send "Connection Established" "$success_message"
+	else
+		if [[ "$chosen_network" =~ "" ]]; then
+			wifi_password=$(rofi -dmenu -p "Password: " )
+		fi
+		nmcli device wifi connect "$chosen_id" password "$wifi_password" | grep "successfully" && notify-send "Connection Established" "$success_message"
+	fi
+fi
+
+}
 
 
 #------------------------------------
@@ -291,6 +333,13 @@ case "$1" in
 		  "dzen2" "deployed bar" 
       GDBAR		;;
 
+  wifi)
+          echo "wifi-menu" &
+	  notify-send --icon=/usr/share/themes/themes/icons/rose-pine-moon-icons/64x64/apps/distributor-logo-archlinux.svg \
+		  -h int:value:$BRIGHTNESS \
+		  -r 445 --app-name=system-ui \
+		  "wifi" "NetworkManager" 
+      wifi-menu		;;
 esac
 
 

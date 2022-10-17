@@ -32,6 +32,10 @@ case $OPTION in
   ;; 
 esac
 
-OPTIONICON=$(ls -aR /usr/share/icons ) | rofi -dmenu
+namechange ()
+{
+  
+}
+# OPTIONICON=$(ls -aR /usr/share/icons ) | rofi -dmenu
 #-------------------------
 
