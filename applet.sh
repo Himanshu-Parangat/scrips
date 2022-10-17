@@ -2,15 +2,8 @@
 # this list in public domain any one can modefy,distribute and improve it
 
 # TO-DOs
-# fix audio mute notify
 # clean and refactor
-# system info popup
-# Topbar
-# gamaCorrection
-# media info 
 # rotate desktop + rotate trackpad
-# toggle trackpad 
-# toggle blur 
 # mode for projection (xrander)
 
 #------------------------------------
@@ -90,6 +83,47 @@ do
    sleep 1
 done
 }
+
+
+SCALE(){
+SCALEOUTPUT=$(echo -e "Normal 1 
+Lower 0.9
+Lower 0.8
+Lower 0.7
+Lower 0.6
+Lower 0.5
+Higher 1.5
+Higher 2
+Higher 2.5
+Higher 3
+" | rofi -dmenu -p Scale -i 7 -a X -theme-str '#listview {columns:2; }')
+
+Scale= echo $SCALEOUTPUT |sed -e 's/[a-zA-Z]/ /g'  | tr -d " \t\n\r" 
+
+notify-send "output set to $SCALEOUTPUT" "$Scale"
+
+ 
+
+xrandr --output  $(xrandr |grep connected\ primary  | awk '{ print $1 }') \
+--scale $( echo $SCALEOUTPUT |sed -e 's/[a-zA-Z]/ /g'  | tr -d " \t\n\r") 
+
+nitrogen --restore
+}
+
+
+GDBAR ()
+{
+  
+(
+amixer get Master | \
+awk '/Left:/{gsub(/[[:punct:]]/,"",$5);left=$5}
+     /Right:/{gsub(/[[:punct:]]/,"",$5);right=$5}
+     END{print left ORS right}'
+) | gdbar -max 100 -min 0 -l 'Vol ' -bg '#777777' -fg '#00ff00' -ss '2' | dzen2 -p -u -l '1' -w '150' -y '100' -x '100' -ta c -sa c -e 'onstartup=uncollapse;button3=exit'
+}
+
+
+
 
 #------------------------------------
 # check parrameters
@@ -240,9 +274,24 @@ case "$1" in
             
              ;;
 
+
+  scale)
+          echo "scale" &
+	  notify-send --icon=/usr/share/themes/themes/icons/rose-pine-moon-icons/64x64/apps/distributor-logo-archlinux.svg \
+		  -h int:value:$BRIGHTNESS \
+		  -r 445 --app-name=system-ui \
+		  "xrander" "select scale" 
+      SCALE		;;
+
+  gdbar)
+          echo "gdbar" &
+	  notify-send --icon=/usr/share/themes/themes/icons/rose-pine-moon-icons/64x64/apps/distributor-logo-archlinux.svg \
+		  -h int:value:$BRIGHTNESS \
+		  -r 445 --app-name=system-ui \
+		  "dzen2" "deployed bar" 
+      GDBAR		;;
+
 esac
-
-
 
 
 
