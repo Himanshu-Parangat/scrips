@@ -7,6 +7,30 @@
 # mode for projection (xrander)
 
 #------------------------------------
+# brightness [ ]
+# blur [ ]
+# sount [ ]
+# sound,mic,camera disable [ ]
+# sount play,pause, next [ ]
+# flight mode [ ]
+# network [ ]
+# print screen [ ] 
+# Tochpad lock [ ]
+# keyboard lock [ ]
+# key lock [ ]
+# screen lock(jahy) [ ]
+# screen mode vivid,black,inverted,cinema,dim [ ]
+# rotate Touchscreen,Touchpad [ ]
+# piwall control,wallpaper [ ]
+# bitcoin [ ]
+# wether [ ]
+# system info concy [ ]
+# battery and warning [ ]
+# opening app message [ ]
+# clipboad message [ ]
+# layout switch [ ]
+# zoom scale [ ]
+# badaass greeting quotes [ ]
 
 # wake_greet.sh
 # Topbar_toggle.sh
