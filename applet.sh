@@ -221,6 +221,25 @@ case "$1" in
               xinput disable 10 &
           fi ;;
 
+  colour_correction)
+          echo "colour_correction" & 
+    notify-send --icon=/usr/share/themes/themes/icons/rose-pine-moon-icons/64x64/apps/distributor-logo-archlinux.svg  \
+	       -r 445 --app-name=system-ui \
+	       "xrander" "select colour"  
+
+          colour_correction=$(echo -e "Normal       1:1:1\n  light grass  0.85:1:1\n cleanGrean   0.5:0.6:0.5\n rose pink    1:0.85:1\n  rosePink     0.9:0.7:0.7\n          lukeYellow   0.7:0.6:0.5\n          Straw        1:1:0.9\n          blues        0.7:0.7:1\n          warmBlue     0.7:0.6:0.8\n          White        255:255:255\n          Black        0.001:0.001:0.001\n          Cyan         0.1:1:1\n          Yellow       1:1:0.01\n          Megenta      1:0.01:1\n          red          1:0.1:0.1\n          green        0.1:1:0.1\n          purple       1:0.6:0.8\n " | rofi -dmenu -p Correction -i 7 -a X -theme-str '#listview {columns:2; }') 
+          
+          colour_set= echo $colour_correction |sed -e 's/[a-zA-Z]/ /g'  | tr -d " \t\n\r" 
+          
+          notify-send "color profile set to $colour_correction"
+          
+          DISPLAY= $(xrandr |grep connected\ primary  | awk '{ print $1 }')
+          
+          xrandr --output $(xrandr |grep connected\ primary  | awk '{ print $1 }')  \
+          --gamma $( echo $colour_correction |sed -e 's/[a-zA-Z]/ /g'  | tr -d " \t\n\r") 
+            
+             ;;
+
 esac
 
 
