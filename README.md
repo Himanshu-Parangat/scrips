@@ -19,7 +19,7 @@ rofi with DarkBlue theme
 ```
 
 ## Requirements
-- `rofi`
+- `rofi` or wayland equivelent `wofi`
 - a browser
 - Video Player : `mpv` or `vlc`
 - Video Downloader : `youtube-dl` or `yt-dlp`
