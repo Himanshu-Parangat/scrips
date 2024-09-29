@@ -2,10 +2,7 @@
 
 `applet` started as simple script for Linux. It works by using complex command into simple formate to perform many function `applet` where you are presented with a menu and much more.
 
-<p align="center">
-<img alt="screenshot" src="https://user-images.githubusercontent.com/73726132/136132026-aa2a685e-965c-44b5-b9c3-5a043dc2539a.gif">
-rofi with DarkBlue theme
-</p>
+
 
 ## Features
 ```
