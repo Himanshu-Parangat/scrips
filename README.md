@@ -4,24 +4,9 @@
 
 
 
-## Features
-```
-- auto detect installed browsers
-- auto remove tracking elements from URLs (basic)
-- ?search engines
-- !bangs
-- !ubangs : url bangs
-- !dbangs : direct bangs or domain bangs
-- ...
-```
-
 ## Requirements
 - `rofi` or wayland equivelent `wofi`
-- a browser
-- Video Player : `mpv` or `vlc`
-- Video Downloader : `youtube-dl` or `yt-dlp`
-- Image Viewer : `sxiv` or `feh`
-- Image Editor : `gimp`
+- `light` for brightness 
 - Clipboard managers : `xclip`
 
 ## Installation
